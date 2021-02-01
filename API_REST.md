@@ -1,53 +1,54 @@
 # API REST Calculadora
 
-## Suma [/calc/suma/{param1}/{param2}]
+**URL Params**
+   
+    `param1: 6`
+    `param2: 2`
 
-+ Parameters
-    
-    + param1: 6
-    + param2: 2
+## Suma 
 
-### Result [GET]
-
-+ Response 200 (application/json)
-
+# GET /calc/suma/{param1}/{param2}
++ Response 200 OK (application/json)
+```json
+[
         {
             "resultat": 8
         }
+]        
+```
 
-## Resta [/calc/resta/{param1}/{param2}]
+## Resta 
 
-### Result [GET]
-
-+ Response 200 (application/json)
-
-    [
+# GET /calc/resta/{param1}/{param2}
++ Response 200 OK (application/json)
+```json
+[
         {
             "resultat": 4
         }
-    ]
+]        
+```
 
-## Multiplicació [/calc/multiplicacio/{param1}/{param2}]
+## Multiplicació 
 
-### Result [GET]
-
-+ Response 200 (application/json)
-
-    [
+# GET /calc/multiplicacio/{param1}/{param2}
++ Response 200 OK (application/json)
+```json
+[
         {
             "resultat": 12
         }
-    ]
+]        
+```
 
+## Divisió 
 
-## Divisió [/calc/divisio/{param1}/{param2}]
-
-### Result [GET]
-
-+ Response 200 (application/json)
-
-    [
+# GET /calc/divisio/{param1}/{param2}
++ Response 200 OK (application/json)
+```json
+[
         {
             "resultat": 3
         }
-    ]
+]        
+```
