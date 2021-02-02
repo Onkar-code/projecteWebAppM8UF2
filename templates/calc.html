@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body { margin: 40px;}
+        .calc_content { display: flex; margin-bottom: 30px;}
+        .column { display: flex; flex-direction: column; margin-left: 20px;}
+        .row_last { display: flex; justify-content: space-between;}
+        button { 
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            background-color: white; 
+            border: 1px solid black;
+            border-radius: 10px;
+            cursor: pointer;}
+    </style>
+</head>
+<body>
+    <h1>Calculadora</h1>
+
+    <div class="calc_content">
+        <div>
+            <div class="row">
+                <button type="button" value="7" onclick="showNumbers(value)">7</button>
+                <button type="button" value="8" onclick="showNumbers(value)">8</button>
+                <button type="button" value="9" onclick="showNumbers(value)">9</button>
+            </div>
+            <div class="row">
+                <button type="button" value="4" onclick="showNumbers(value)">4</button>
+                <button type="button" value="5" onclick="showNumbers(value)">5</button>
+                <button type="button" value="6" onclick="showNumbers(value)">6</button>
+            </div>
+            <div class="row">
+                <button type="button" value="1" onclick="showNumbers(value)">1</button>
+                <button type="button" value="2" onclick="showNumbers(value)">2</button>
+                <button type="button" value="3" onclick="showNumbers(value)">3</button>
+            </div>
+            <div class="row_last">
+                <button type="button" value="0" onclick="showNumbers(value)">0</button>
+                <button type="button" value="equal" onclick="showResult()">=</button>
+            </div>
+        </div>
+
+        <div class="column">
+            <button type="button" value="suma" onclick="showNumbers(value)">+</button>
+            <button type="button" value="resta" onclick="showNumbers(value)">-</button>
+            <button type="button" value="multi" onclick="showNumbers(value)">*</button>
+            <button type="button" value="divi" onclick="showNumbers(value)">/</button>
+        </div>
+    </div>
+
+
+
+    <div>
+        <input type="text" id="numbers" onchange="myCalc()">
+    </div>
+    
+    <script>
+        var op1 = '';
+        function showNumbers(value){
+            value = parseInt(value);
+            console.log(parseInt(value));
+            if (Number.isNaN(value)){
+                document.getElementById("numbers").value = '';
+                
+            } else { 
+                op1 += value; 
+                console.log(value, op1);
+                document.getElementById("numbers").value = op1;
+            }
+        }
+
+    </script>
+</body>
+</html>
