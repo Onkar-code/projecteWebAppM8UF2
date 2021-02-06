@@ -10,11 +10,11 @@ def login():
     error = None
     if request.method=='POST':
     	if request.form['user'] != 'user' or request.form['pwd'] != '1234':
-    		error='Invalid Credentials. Please try again.'
+    		error = 'Invalid credentials. Please try again.'
     	else:
     		return render_template('calc.html')
     return render_template('index.html',error=error)
-
+    
 @app.route('/calc/suma/<param1>/<param2>')
 def suma(param1, param2):
     n_param1 = float(param1)

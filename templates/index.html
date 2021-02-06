@@ -19,6 +19,9 @@
             <input type="text" id="pwd" name="pwd"><br><br>
             <input type="submit" value="Validar">
         </form>
+        {% if error %}
+            <p><strong>Error:</strong> {{ error }}</p>
+        {% endif %}
     </div>
 </body>
 </html>
