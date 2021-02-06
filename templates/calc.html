@@ -39,8 +39,8 @@
                 <button type="button" value="3" onclick="showNumbers(value)">3</button>
             </div>
             <div class="row_last">
-                <button type="button" value="0" onclick="showNumbers(value)">0</button>
-                <button type="button" value="equal" onclick="showResult()">=</button>
+                <button type="button" va lue="0" onclick="showNumbers(value)">0</button>
+                <button type="button" value="equal" onclick="showNumbers(value)">=</button>
             </div>
         </div>
 
@@ -55,24 +55,40 @@
 
 
     <div>
-        <input type="text" id="numbers" onchange="myCalc()">
+        <input type="text" id="numbers">
     </div>
     
     <script>
         var op1 = '';
+        var op2 = '';
+        var operacio;
+        var ctrl = false;
+
         function showNumbers(value){
             value = parseInt(value);
             console.log(parseInt(value));
+            if (value == "equal") { "INSERTE AQUI LLAMADA A LA API? OR IN SHOWRESULT" }
             if (Number.isNaN(value)){
                 document.getElementById("numbers").value = '';
-                
+                operacio = value;
+                ctrl = true;
             } else { 
-                op1 += value; 
-                console.log(value, op1);
-                document.getElementById("numbers").value = op1;
+                if (ctrl == true) {
+                    op2 += value; 
+                    console.log(value, op1);
+                    document.getElementById("numbers").value = op2;
+                } else {
+                    op1 += value; 
+                    console.log(value, op1);
+                    document.getElementById("numbers").value = op1;
+                }
+
             }
         }
-
+        
+        function showResult(op1,op2){
+            document.getElementById("numbers").value = "RESULT OP";
+        }
     </script>
 </body>
 </html>
