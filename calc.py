@@ -1,12 +1,19 @@
 from flask import Flask, render_template,jsonify
+from flask import request
 
 app = Flask(__name__)
 
 #mapping URLs to functions
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+@app.route('/', methods=['POST','GET'])
+def login():
+    error = None
+    if request.method=='POST':
+    	if request.form['user'] != 'user' or request.form['pwd'] != '1234':
+    		error='Invalid Credentials. Please try again.'
+    	else:
+    		return render_template('calc.html')
+    return render_template('index.html',error=error)
 
 @app.route('/calc/suma/<param1>/<param2>')
 def suma(param1, param2):
