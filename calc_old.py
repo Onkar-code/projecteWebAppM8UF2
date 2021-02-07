@@ -1,20 +1,19 @@
-from flask import Flask, request, make_response, render_template, jsonify
+from flask import Flask, render_template,jsonify
 from flask import request
 
 app = Flask(__name__)
 
 #mapping URLs to functions
 
-credentials = {
-	"user": "user",
-	"password": "1234"
-}
-
-@app.route('/')
+@app.route('/', methods=['POST','GET'])
 def login():
-	if request.authorization and request.authorization.username == credentials["user"] and request.authorization.password== credentials["password"]:
-		return render_template('calc.html')
-	return make_response('No se ha podido verificar!',401,{'WWW-Authenticate' : 'Basic realm="Login Required"'})
+	error = None
+	if request.method=='POST':
+		if request.form['user'] != 'user' or request.form['pwd'] != '1234':
+			error = 'Invalid credentials. Please try again.'
+		else:
+			return render_template('calc.html')
+	return render_template('index.html',error=error)
     
 @app.route('/calc/suma/<param1>/<param2>')
 def suma(param1, param2):
