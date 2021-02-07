@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Calculadora</title>
     <style>
         body { margin: 40px;}
         .calc_content { display: flex; margin-bottom: 30px;}
         .column { display: flex; flex-direction: column; margin-left: 20px;}
-        .row_last { display: flex; justify-content: space-between;}
         button { 
             padding: 10px 15px;
             margin-bottom: 5px;
@@ -16,6 +16,9 @@
             border: 1px solid black;
             border-radius: 10px;
             cursor: pointer;}
+        #dot {
+            padding: 10px 16.5px;
+        }
     </style>
 </head>
 <body>
@@ -38,56 +41,130 @@
                 <button type="button" value="2" onclick="showNumbers(value)">2</button>
                 <button type="button" value="3" onclick="showNumbers(value)">3</button>
             </div>
-            <div class="row_last">
-                <button type="button" va lue="0" onclick="showNumbers(value)">0</button>
-                <button type="button" value="equal" onclick="showNumbers(value)">=</button>
+            <div class="row">
+                <button type="button" id="dot" value="dot" onclick="showNumbers(value)">.</button>
+                <button type="button" value="0" onclick="showNumbers(value)">0</button>
+                <button type="button" id="equal" value="equal" onclick="showNumbers(value)">=</button>
             </div>
         </div>
 
         <div class="column">
-            <button type="button" value="suma" onclick="showNumbers(value)">+</button>
-            <button type="button" value="resta" onclick="showNumbers(value)">-</button>
-            <button type="button" value="multi" onclick="showNumbers(value)">*</button>
-            <button type="button" value="divi" onclick="showNumbers(value)">/</button>
+            <button type="button" class="operand" value="suma" onclick="showNumbers(value, '+')">+</button>
+            <button type="button" class="operand" value="resta" onclick="showNumbers(value, '-')">-</button>
+            <button type="button" class="operand" value="multiplicacio" onclick="showNumbers(value, '*')">*</button>
+            <button type="button" class="operand" value="divisio" onclick="showNumbers(value, '/')">/</button>
+        </div>
+
+        <div class="column">
+            <button type="button" id="reset" value="reset" onclick="reset()">C</button>
+            <span id="resetText"></span>
         </div>
     </div>
 
 
 
     <div>
-        <input type="text" id="numbers">
+        <input type="text" id="numbers"/>
     </div>
-    
+    <br>
+    <div id="resultat"/>
+
     <script>
         var op1 = '';
         var op2 = '';
         var operacio;
-        var ctrl = false;
+        var ctrl = false; //Controla si ens trobem emplenant el primer (false) o el segon operador (true)
+        url='';
 
-        function showNumbers(value){
-            value = parseInt(value);
-            console.log(parseInt(value));
-            if (value == "equal") { "INSERTE AQUI LLAMADA A LA API? OR IN SHOWRESULT" }
-            if (Number.isNaN(value)){
-                document.getElementById("numbers").value = '';
-                operacio = value;
-                ctrl = true;
-            } else { 
-                if (ctrl == true) {
-                    op2 += value; 
-                    console.log(value, op1);
-                    document.getElementById("numbers").value = op2;
-                } else {
-                    op1 += value; 
-                    console.log(value, op1);
-                    document.getElementById("numbers").value = op1;
+        function showResult(resultat) {
+            $("#resultat").append(resultat);
+        }
+
+        function showNumbers(value, sign){
+
+            //Operació, punt decimal o igual 
+            if (value.length > 1){
+
+                //Igual 
+                if (value === "equal") {
+                    if (op1 && op2) {
+
+                        //Reset input & disable buttons
+                        $("#numbers").val('');
+                        $("button").attr('disabled', 'disabled');
+                        $("#reset").removeAttr('disabled');
+
+                        //Show stuff
+                        $("#resultat").append(`${op2} = `);
+
+                        //Call API
+                        url = `http://localhost:5000/calc/${operacio}/${op1}/${op2}`;
+                        fetch(url)
+                          .then(response => response.json())
+                          .then(data => showResult(data))
+                          .catch(err => alert("Something went wrong!"));
+
+                        //Force reset
+                        $("#resetText").html("Press here to go again!");
+                    }
                 }
 
+                //Punt decimal
+                else if (value === "dot") {
+                    var input = $("#numbers");
+
+                    //Si no hi ha res a l'input
+                    if (!input.val()) {
+                        input.val("0");
+                    }
+
+                    //Afegim punt decimal
+                    input.val(input.val() + '.');
+                    if (ctrl) {
+                        op2 = input.val();
+                    }
+                    else {
+                        op1 = input.val();
+                    }
+                    $("#dot").attr('disabled', 'disabled');
+                }
+
+                //Operació 
+                else {
+                    if (op1) {
+
+                        //Reset input
+                        $("#numbers").val('');
+
+                        //Show stuff & disable operand buttons
+                        operacio = value;
+                        $("button.operand").attr('disabled', 'disabled');
+                        $("#dot").removeAttr('disabled');
+                        $("#resultat").html(`${op1} ${sign} `);
+                        ctrl = true;    //Passem al segon operador
+                    }
+                }
+
+            //Número -> Mostrem al input i actualitzem variable pertinent
+            } else { 
+                if (ctrl) {
+                    op2 += value; 
+                    $("#numbers").val(op2);
+                } else {
+                    op1 += value;
+                    $("#numbers").val(op1);
+                }
             }
         }
-        
-        function showResult(op1,op2){
-            document.getElementById("numbers").value = "RESULT OP";
+
+        function reset() {
+            op1 = '';
+            op2 = '';
+            operacio = '';
+            ctrl = false;
+            $("#resetText, #resultat").html('');
+            $("button").removeAttr('disabled');
+            $("#numbers").val('');
         }
     </script>
 </body>
