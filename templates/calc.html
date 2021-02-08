@@ -97,12 +97,12 @@
                         //Show stuff
                         $("#resultat").append(`${op2} = `);
 
-                        //Call API
-                        url = `http://localhost:5000/calc/${operacio}/${op1}/${op2}`;
+                        //Call API                      	
+                        url = `http://localhost:8080/calc/${operacio}/${op1}/${op2}`;
                         fetch(url)
                           .then(response => response.json())
-                          .then(data => showResult(data))
-                          .catch(err => alert("Something went wrong!"));
+                          .then(data => showResult(data["resultat"]))
+                          .catch(err => console.log("Something went wrong!", err));
 
                         //Force reset
                         $("#resetText").html("Press here to go again!");
