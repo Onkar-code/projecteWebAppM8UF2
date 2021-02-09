@@ -2,7 +2,7 @@
 
 First of all, must have docker & docker-compose installed.  
 
-1. Clone de project
+1. Clone the project
 2. `cd projecteWebAppM8UF2`
 3. `cd calculadora`
 4. Build container: `sudo docker-compose build`
