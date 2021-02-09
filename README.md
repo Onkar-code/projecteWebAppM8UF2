@@ -1,6 +1,6 @@
 #To Run container
 
-First of all, must has docker & docker-compose installed.  
+First of all, must have docker & docker-compose installed.  
 
 1. Clone de project
 2. `cd projecteWebAppM8UF2`
